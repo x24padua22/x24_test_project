@@ -1,0 +1,16 @@
+<% content_for :title do %>Add a new user<% end %>
+<h1>Sign up for a new user</h1>
+<%= simple_form_for @user, :html => {:id => "add_user"} do |f| %>
+<% if flash[:success] %>
+ 	 <p class='success message'><%= flash[:success] %></p>
+<% elsif flash[:error] %>
+ 	<% flash[:error].each do |i| %>
+	 	<p class='error message'><%= i %></p>
+	<% end %>
+<% end %>
+<%= f.input :name , wrapper_html: { class: 'form_entity' }%>
+<%= f.input :password, wrapper_html: { class: 'form_entity' } %>
+<%= f.input :email_address, wrapper_html: { class: 'form_entity' } %>
+<%= f.button :submit, "Register"%>
+<% end %>
+<%= link_to "Sign in now", new_session_path, :id => "create_user" %>

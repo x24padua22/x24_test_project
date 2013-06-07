@@ -1,0 +1,65 @@
+<% content_for :title do %><%= @blog.title  %><% end %>
+<h1>
+	<%= @blog.title  %>
+	<%= link_to 'x', blog_path(@blog), :confirm => 'Are you sure?', :method => :delete, :class => "remove" %>
+</h1>
+<p class="blog_description"><%= @blog.description  %></p>
+<div id="blogger">
+	<p>Posted by: <%= @blog.users[0].name %></p>
+	<p><%= @blog.created_at.strftime("%B %d, %Y") %></p>
+</div>
+<div id="posts">
+	<h2>Add post</h2>
+	<%= simple_form_for [@blog, Post.new], :html => {:id => "add_post"} do |f| %>
+	<% if flash[:success] %>
+	  	<p class='success message'><%= flash[:success] %></p>
+	<% elsif flash[:error] %>
+		<% flash[:error].each do |i| %>
+		 	<p class='error message'><%= i %></p>
+		<% end %>
+	<% end %>
+	<%= f.input :title , wrapper_html: { class: 'form_entity' }%>
+	<div class="clear"></div>
+	<%= f.input :content, as: :text, wrapper_html: { class: 'form_entity' } %>
+	<div class="clear"></div>
+	<%= f.button :submit, "Add Post"%>
+	<div class="clear"></div>
+	<% end %>
+	<div class="clear"></div>
+
+	<% @blog.posts.all(:order => "created_at desc").each do |post| %>
+	<div class="post">
+		<%= link_to 'x', blog_post_path(@blog.id, post.id), :confirm => 'Are you sure?', :method => :delete, :class => "remove" %>
+		<div class="post_title"><%= post.title %></div>
+		<div class="post_description"><%= post.content %></div>
+		<div class="clear"></div>
+		<div class="poster">
+			<p>Posted by: <%= post.user.name %></p>
+			<p><%= post.created_at.strftime("%B %d, %Y") %></p>
+		</div>
+		<div class="messages">
+			<% post.messages.all(:order => "created_at desc").each do |message| %>
+			<%= link_to 'x', blog_post_message_path(@blog.id, post.id, message.id), :confirm => 'Are you sure?', :method => :delete, :class => "remove" %>
+			<div class="message">
+
+				<%= message.message %>
+			</div>
+			<div class="clear"></div>
+			<div class="messager">
+				<p>Posted by: <%= message.user.name %></p>
+				<p><%= message.created_at.strftime("%B %d, %Y") %></p>
+			</div>
+			<% end %>
+
+		</div>
+		<%= simple_form_for [@blog, post, Message.new], :html => {:id => "add_message"} do |f| %>
+		<%= f.input_field :message, as: :text, wrapper_html: { class: 'form_entity' } %>
+		<div class="clear"></div>
+		<%= f.button :submit, "Add Message"%>
+		<div class="clear"></div>
+		<% end %>
+		<div class="clear"></div>
+	</div>
+	<% end %>
+
+</div>

@@ -1,0 +1,12 @@
+<% content_for :title do %>Update a new user<% end %>
+<h1>Update user</h1>
+<%= simple_form_for @user, :html => {:id => "add_user"} do |f| %>
+<% if flash[:success] %>
+  <p class='success message'><%= flash[:success] %></p>
+<% elsif flash[:error] %>
+  <p class='error message'><%= flash[:error] %></p>
+<% end %>
+<%= f.input :name , wrapper_html: { class: 'form_entity' }%>
+<%= f.input :email_address, wrapper_html: { class: 'form_entity' } %>
+<%= f.button :submit, "Update"%>
+<% end %>

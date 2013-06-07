@@ -1,0 +1,7 @@
+<% content_for :title do %>Profile Info<% end %>
+<div id="user_info">
+	<div class="name">Full Name: <%= @user.name %></div>
+	<div class="email">Email Address: <%= @user.email_address %></div>
+	<%= link_to "Edit",  edit_user_path(@user) %>
+	<%= link_to "Delete",  user_path(@user), :confirm => 'Are you sure?', :method => :delete %>
+</div>

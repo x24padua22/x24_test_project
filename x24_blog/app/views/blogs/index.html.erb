@@ -1,0 +1,41 @@
+<% content_for :title do %>Check all blogs<% end %>
+<h1>Blogs</h1>
+<%= simple_form_for @blog, :html => {:id => "add_blog"} do |f| %>
+<% if flash[:success] %>
+  	<p class='success message'><%= flash[:success] %></p>
+<% elsif flash[:error] %>
+	<% flash[:error].each do |i| %>
+	 	<p class='error message'><%= i %></p>
+	<% end %>
+<% end %>
+<%= f.input :title , wrapper_html: { class: 'form_entity' }%>
+<div class="clear"></div>
+<%= f.input :description, wrapper_html: { class: 'form_entity' } %>
+<div class="clear"></div>
+<%= f.button :submit, "Add Blog"%>
+<div class="clear"></div>
+<% end %>
+<table id="blog_table">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Title</th>
+			<th>Description</th>
+			<th>Number of posts</th>
+			<th>Created by</th>
+			<th>Registered Date</th>
+		</tr>
+	</thead>
+	<tbody>
+ 	<% @blogs.each do |blog| %>
+		<tr>
+			<td><%= link_to blog.id, blog_path(blog) %></td>
+			<td><%= link_to blog.title, blog_path(blog) %></td>
+			<td><%= blog.description %></td>
+			<td><%= blog.posts.length %></td>
+			<td><%= blog.users[0].name %></td>
+			<td><%= blog.created_at.strftime("%B %d, %Y") %></td>
+		</tr>
+	<% end %>
+	</tbody>
+</table>

@@ -1,0 +1,12 @@
+<% content_for :title do %>User sign in<% end %>
+<h1>Login as a user</h1>
+<% if flash[:error] %>
+	<p><%= flash[:error] %></p>
+<% end %>
+
+<%= simple_form_for :session, :url => sessions_path, :html => {:id => "sign_in"} do |f| %>
+  <%= f.input :email, wrapper_html: {class: 'form_entity'} %>
+  <%= f.input :password, wrapper_html: {class: 'form_entity'} %>
+  <%= f.button :submit, "Sign in" %>
+<% end %>
+<%= link_to "Create New Account", new_user_path, :id => "create_user" %>
